@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compress PDF Online | Ranjit Studio Kapka</title>
+
+    <meta name="description"
+        content="Compress PDF files online with Ranjit Studio Kapka. Reduce PDF size quickly in your browser with our free and simple PDF compression tool.">
+    <meta name="keywords"
+        content="Compress PDF, PDF compressor, reduce PDF size, PDF tool online, compress PDF online, Ranjit Studio Kapka">
+    <meta name="author" content="Ranjit Studio Kapka">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://ranjitstudiokapka.in/compress.html">
+
+    <meta property="og:title" content="Compress PDF Online | Ranjit Studio Kapka">
+    <meta property="og:description"
+        content="Use our free online PDF compressor to reduce PDF file size quickly and easily.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ranjitstudiokapka.in/compress.html">
+    <meta property="og:image" content="https://ranjitstudiokapka.in/logo.png">
+
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Compress PDF Online | Ranjit Studio Kapka">
+    <meta name="twitter:description"
+        content="Reduce PDF file size online quickly and easily with Ranjit Studio Kapka.">
+    <meta name="twitter:image" content="https://ranjitstudiokapka.in/logo.png">
+
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="compress.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B1MPZCSR95"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-B1MPZCSR95');
+</script>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="index.html" class="brand-link" aria-label="Ranjit Studio Kapka Home">
+            <div class="logo">
+                <img src="logo.png" alt="Ranjit Studio logo" class="logo-img">
+                <span>Ranjit Studio Kapka</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="csc_service.html">CSC Services</a></li>
+                <li><a href="videography.html">Studio &amp; Videography</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- TOOL SECTION -->
+        <section class="tool-section">
+            <div class="box">
+                <h1>Compress PDF Online</h1>
+                <p class="subtitle">
+                    Upload a PDF file, choose your target size in KB, and download a smaller compressed PDF directly from your browser.
+                </p>
+
+                <div id="drop-area">
+                    <p>Click here to upload PDF</p>
+                    <input type="file" id="pdfInput" accept="application/pdf">
+                </div>
+
+                <input type="number" id="targetSize" placeholder="Enter target size in KB">
+
+                <button onclick="compressPDF()">Compress &amp; Download</button>
+
+                <p id="status"></p>
+                <p id="result"></p>
+            </div>
+        </section>
+
+        <!-- SEO CONTENT -->
+        <section class="seo-content">
+            <h2>Free Online PDF Compression Tool</h2>
+            <p>
+                Ranjit Studio Kapka provides a free online PDF compressor that helps reduce PDF file size for email,
+                uploads, online forms, and easy sharing. This tool works in your browser and is useful for students,
+                professionals, and business users.
+            </p>
+
+            <h2>How to Compress PDF Files</h2>
+            <p>
+                Upload your PDF file, enter your preferred target size in KB, and click the compress button.
+                The tool will process the file and download a smaller version of your PDF automatically.
+            </p>
+
+            <h2>More Useful Tools</h2>
+            <p>
+                You can also explore our other tools like
+                <a href="jpg-to-pdf.html">JPG to PDF</a>,
+                <a href="merge-pdf.html">Merge PDF</a>,
+                <a href="delete-pdf-pages.html">Delete PDF Pages</a>, and
+                <a href="png-to-jpg.html">PNG to JPG</a>.
+            </p>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Ranjit Studio Kapka. All rights reserved.</p>
+        
+    </footer>
+
+    <!-- SCHEMA -->
+    <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebApplication",
+  "name": "Compress PDF Online",
+  "url": "https://ranjitstudiokapka.in/compress.html",
+  "applicationCategory": "UtilityApplication",
+  "operatingSystem": "Any",
+  "description": "Free online PDF compressor tool by Ranjit Studio Kapka to reduce PDF file size quickly."
+}
+</script>
+
+    <!-- TOOL SCRIPT -->
+    <script>
+        let selectedFile = null;
+
+        const input = document.getElementById("pdfInput");
+        const status = document.getElementById("status");
+        const result = document.getElementById("result");
+        const dropArea = document.getElementById("drop-area");
+        const menuToggle = document.getElementById("mobile-menu");
+        const navList = document.getElementById("nav-list");
+
+        menuToggle.addEventListener("click", () => {
+            menuToggle.classList.toggle("open");
+            navList.classList.toggle("active");
+
+            const isExpanded = menuToggle.classList.contains("open");
+            menuToggle.setAttribute("aria-expanded", isExpanded);
+        });
+
+        dropArea.addEventListener("click", () => input.click());
+
+        input.addEventListener("change", e => {
+            selectedFile = e.target.files[0];
+            if (selectedFile) {
+                status.innerText = `Selected: ${selectedFile.name}`;
+                result.innerText = "";
+            }
+        });
+
+        async function compressPDF() {
+            if (!selectedFile) {
+                alert("Please upload a PDF file.");
+                return;
+            }
+
+            const targetKB = parseInt(document.getElementById("targetSize").value);
+
+            if (!targetKB || targetKB <= 0) {
+                alert("Please enter a valid target size in KB.");
+                return;
+            }
+
+            status.innerText = "Compressing... ⏳";
+            result.innerText = "";
+
+            const originalSize = (selectedFile.size / 1024).toFixed(2);
+            const fileReader = new FileReader();
+
+            fileReader.onload = async function () {
+                try {
+                    const typedArray = new Uint8Array(this.result);
+                    const pdf = await pdfjsLib.getDocument(typedArray).promise;
+
+                    const { jsPDF } = window.jspdf;
+                    let quality = 0.7;
+                    let pdfBlob = null;
+
+                    for (let attempt = 0; attempt < 5; attempt++) {
+                        const newPdf = new jsPDF();
+
+                        for (let i = 1; i <= pdf.numPages; i++) {
+                            const page = await pdf.getPage(i);
+                            const viewport = page.getViewport({ scale: 1 });
+
+                            const canvas = document.createElement("canvas");
+                            const ctx = canvas.getContext("2d");
+
+                            canvas.width = viewport.width;
+                            canvas.height = viewport.height;
+
+                            await page.render({
+                                canvasContext: ctx,
+                                viewport: viewport
+                            }).promise;
+
+                            const imgData = canvas.toDataURL("image/jpeg", quality);
+
+                            const imgWidth = 210;
+                            const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                            if (i > 1) newPdf.addPage();
+                            newPdf.addImage(imgData, "JPEG", 0, 0, imgWidth, imgHeight);
+                        }
+
+                        pdfBlob = newPdf.output("blob");
+
+                        if ((pdfBlob.size / 1024) <= targetKB || quality <= 0.2) {
+                            break;
+                        }
+
+                        quality -= 0.1;
+                    }
+
+                    const finalSize = (pdfBlob.size / 1024).toFixed(2);
+
+                    const link = document.createElement("a");
+                    link.href = URL.createObjectURL(pdfBlob);
+                    link.download = "compressed.pdf";
+                    link.click();
+
+                    status.innerText = "Done ✅";
+                    result.innerHTML = `
+                        Original Size: ${originalSize} KB <br>
+                        Compressed Size: ${finalSize} KB
+                    `;
+                } catch (error) {
+                    status.innerText = "Compression failed ❌";
+                    result.innerText = "Something went wrong while compressing the PDF.";
+                }
+            };
+
+            fileReader.readAsArrayBuffer(selectedFile);
+        }
+    </script>
+
+</body>
+
+</html>

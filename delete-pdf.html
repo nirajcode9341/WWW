@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Delete PDF Pages Online | Ranjit Studio Kapka</title>
+
+    <meta name="description"
+        content="Delete PDF pages online for free with Ranjit Studio Kapka. Upload a PDF, preview all pages, select unwanted pages, and download the updated PDF easily.">
+    <meta name="keywords"
+        content="Delete PDF pages, remove PDF pages, PDF page remover, edit PDF online, PDF tool, Ranjit Studio Kapka">
+    <meta name="author" content="Ranjit Studio Kapka">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.ranjitstudiokapka.in/delete-pdf-pages.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Delete PDF Pages Online | Ranjit Studio Kapka">
+    <meta property="og:description"
+        content="Upload a PDF, preview pages, select the pages you want to remove, and download the updated PDF online.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.ranjitstudiokapka.in/delete-pdf-pages.html">
+    <meta property="og:image" content="https://www.ranjitstudiokapka.in/logo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Delete PDF Pages Online | Ranjit Studio Kapka">
+    <meta name="twitter:description"
+        content="Remove unwanted PDF pages online quickly with Ranjit Studio Kapka.">
+    <meta name="twitter:image" content="https://www.ranjitstudiokapka.in/logo.png">
+
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="delete-pdf.css">
+
+    <!-- PDF LIB -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+    <!-- PDF JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js"></script>
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B1MPZCSR95"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-B1MPZCSR95');
+</script>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="index.html" class="brand-link" aria-label="Ranjit Studio Kapka Home">
+            <div class="logo">
+                <img src="logo.png" alt="Ranjit Studio logo" class="logo-img">
+                <span>Ranjit Studio Kapka</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="csc_service.html">CSC Services</a></li>
+                <li><a href="videography.html">Studio &amp; Videography</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- TOOL SECTION -->
+        <section class="tool-section">
+            <div class="box">
+                <h1>Delete PDF Pages</h1>
+                <p class="subtitle">
+                    Upload a PDF, preview all pages, select the pages you want to remove, and download the updated PDF file.
+                </p>
+
+                <div id="drop-area">
+                    <p>Upload PDF File</p>
+                    <input type="file" id="pdfInput" accept="application/pdf">
+                </div>
+
+                <button onclick="deletePages()">Delete Selected Pages</button>
+
+                <p class="helper-text">Tap or click on any page preview to select it for deletion.</p>
+
+                <div id="preview"></div>
+            </div>
+        </section>
+
+        <!-- SEO CONTENT -->
+        <section class="seo-content">
+            <h2>Free Online PDF Page Remover</h2>
+            <p>
+                This Delete PDF Pages tool by Ranjit Studio Kapka helps you remove unwanted pages from a PDF document easily.
+                Upload your PDF file, preview all pages, select the pages you do not need, and download the updated file in seconds.
+            </p>
+
+            <h2>How to Delete Pages from a PDF</h2>
+            <p>
+                Upload your PDF, view the page previews, click on the pages you want to remove, and press the delete button.
+                The selected pages will be removed and your new PDF will be downloaded automatically.
+            </p>
+
+            <h2>Why Use This Tool</h2>
+            <p>
+                This tool is easy to use, works on mobile and desktop, and helps students, office users, and businesses edit PDF files without installing extra software.
+            </p>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Ranjit Studio Kapka. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let selectedFile = null;
+        let selectedPages = new Set();
+
+        const input = document.getElementById("pdfInput");
+        const preview = document.getElementById("preview");
+        const dropArea = document.getElementById("drop-area");
+        const menuToggle = document.getElementById("mobile-menu");
+        const navList = document.getElementById("nav-list");
+
+        menuToggle.addEventListener("click", () => {
+            menuToggle.classList.toggle("open");
+            navList.classList.toggle("active");
+
+            const isExpanded = menuToggle.classList.contains("open");
+            menuToggle.setAttribute("aria-expanded", isExpanded);
+        });
+
+        dropArea.addEventListener("click", () => input.click());
+
+        input.addEventListener("change", async (e) => {
+            selectedFile = e.target.files[0];
+            if (selectedFile) {
+                renderPreview(selectedFile);
+            }
+        });
+
+        async function renderPreview(file) {
+            preview.innerHTML = "";
+            selectedPages.clear();
+
+            const fileReader = new FileReader();
+
+            fileReader.onload = async function () {
+                const typedArray = new Uint8Array(this.result);
+                const pdf = await pdfjsLib.getDocument(typedArray).promise;
+
+                for (let i = 1; i <= pdf.numPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const viewport = page.getViewport({ scale: 0.55 });
+
+                    const canvas = document.createElement("canvas");
+                    const context = canvas.getContext("2d");
+
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+
+                    await page.render({
+                        canvasContext: context,
+                        viewport: viewport
+                    }).promise;
+
+                    const div = document.createElement("div");
+                    div.className = "page";
+
+                    const label = document.createElement("p");
+                    label.innerText = "Page " + i;
+
+                    div.onclick = () => {
+                        if (selectedPages.has(i)) {
+                            selectedPages.delete(i);
+                            div.classList.remove("selected");
+                        } else {
+                            selectedPages.add(i);
+                            div.classList.add("selected");
+                        }
+                    };
+
+                    div.appendChild(canvas);
+                    div.appendChild(label);
+                    preview.appendChild(div);
+                }
+            };
+
+            fileReader.readAsArrayBuffer(file);
+        }
+
+        async function deletePages() {
+            if (!selectedFile) {
+                alert("Please upload a PDF file first!");
+                return;
+            }
+
+            if (selectedPages.size === 0) {
+                alert("Please select pages to delete!");
+                return;
+            }
+
+            const bytes = await selectedFile.arrayBuffer();
+            const pdfDoc = await PDFLib.PDFDocument.load(bytes);
+
+            const pages = Array.from(selectedPages).map(p => p - 1);
+            pages.sort((a, b) => b - a);
+
+            pages.forEach(p => {
+                if (p >= 0 && p < pdfDoc.getPageCount()) {
+                    pdfDoc.removePage(p);
+                }
+            });
+
+            const newPdf = await pdfDoc.save();
+            const blob = new Blob([newPdf], { type: "application/pdf" });
+
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "updated.pdf";
+            link.click();
+        }
+    </script>
+
+</body>
+
+</html>

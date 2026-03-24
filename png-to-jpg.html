@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PNG to JPG Converter Online | Ranjit Studio Kapka</title>
+
+    <meta name="description"
+        content="Convert PNG images to JPG online for free with Ranjit Studio Kapka. Upload PNG files, preview images, remove unwanted files, and download JPG images easily.">
+    <meta name="keywords"
+        content="PNG to JPG, image converter, PNG converter, JPG converter, online image tool, Ranjit Studio Kapka">
+    <meta name="author" content="Ranjit Studio Kapka">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.ranjitstudiokapka.in/png-to-jpg.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="PNG to JPG Converter Online | Ranjit Studio Kapka">
+    <meta property="og:description"
+        content="Convert PNG images to JPG online quickly and easily with Ranjit Studio Kapka.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.ranjitstudiokapka.in/png-to-jpg.html">
+    <meta property="og:image" content="https://www.ranjitstudiokapka.in/logo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="PNG to JPG Converter Online | Ranjit Studio Kapka">
+    <meta name="twitter:description"
+        content="Upload PNG images, preview them, and convert them to JPG online with Ranjit Studio Kapka.">
+    <meta name="twitter:image" content="https://www.ranjitstudiokapka.in/logo.png">
+
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="png-to-jpg.css">
+</head>
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-B1MPZCSR95"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-B1MPZCSR95');
+</script>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="index.html" class="brand-link" aria-label="Ranjit Studio Kapka Home">
+            <div class="logo">
+                <img src="logo.png" alt="Ranjit Studio logo" class="logo-img">
+                <span>Ranjit Studio Kapka</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="csc_service.html">CSC Services</a></li>
+                <li><a href="videography.html">Studio &amp; Videography</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- TOOL SECTION -->
+        <section class="tool-section">
+            <div class="box">
+                <h1>PNG to JPG Converter</h1>
+                <p class="subtitle">
+                    Upload PNG images, preview them, remove unwanted files, and convert them into JPG format in one click.
+                </p>
+
+                <div id="drop-area">
+                    <p>Drag &amp; Drop PNG Images Here or Click to Upload</p>
+                    <input type="file" id="imageInput" multiple accept="image/png">
+                </div>
+
+                <button onclick="convertToJPG()">Convert to JPG</button>
+
+                <div id="preview"></div>
+            </div>
+        </section>
+
+        <!-- SEO CONTENT -->
+        <section class="seo-content">
+            <h2>Free Online PNG to JPG Converter</h2>
+            <p>
+                This PNG to JPG converter by Ranjit Studio Kapka helps you convert PNG image files into JPG format quickly and easily.
+                It is useful for reducing transparency issues, making images more compatible, and preparing photos for websites, forms, and uploads.
+            </p>
+
+            <h2>How to Convert PNG to JPG</h2>
+            <p>
+                Click the upload area or drag and drop your PNG files, preview the selected images, remove any unwanted image, and click the convert button.
+                Each PNG image will be converted into a downloadable JPG file.
+            </p>
+
+            <h2>Why Use This Tool</h2>
+            <p>
+                This tool is simple, mobile-friendly, and works directly in your browser. It helps students, office users, creators, and businesses convert image files without installing software.
+            </p>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Ranjit Studio Kapka. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let selectedFiles = [];
+
+        const input = document.getElementById("imageInput");
+        const dropArea = document.getElementById("drop-area");
+        const preview = document.getElementById("preview");
+        const menuToggle = document.getElementById("mobile-menu");
+        const navList = document.getElementById("nav-list");
+
+        menuToggle.addEventListener("click", () => {
+            menuToggle.classList.toggle("open");
+            navList.classList.toggle("active");
+
+            const isExpanded = menuToggle.classList.contains("open");
+            menuToggle.setAttribute("aria-expanded", isExpanded);
+        });
+
+        dropArea.addEventListener("click", () => input.click());
+
+        input.addEventListener("change", (e) => {
+            handleFiles(e.target.files);
+        });
+
+        dropArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropArea.classList.add("dragover");
+        });
+
+        dropArea.addEventListener("dragleave", () => {
+            dropArea.classList.remove("dragover");
+        });
+
+        dropArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            dropArea.classList.remove("dragover");
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function handleFiles(files) {
+            for (let file of files) {
+                if (file.type === "image/png") {
+                    selectedFiles.push(file);
+                }
+            }
+            showPreview();
+        }
+
+        function showPreview() {
+            preview.innerHTML = "";
+
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    const div = document.createElement("div");
+                    div.classList.add("preview-item");
+
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.alt = `Selected PNG image ${index + 1}`;
+
+                    const btn = document.createElement("span");
+                    btn.innerText = "×";
+                    btn.classList.add("remove-btn");
+
+                    btn.onclick = () => {
+                        selectedFiles.splice(index, 1);
+                        showPreview();
+                    };
+
+                    div.appendChild(img);
+                    div.appendChild(btn);
+                    preview.appendChild(div);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function convertToJPG() {
+            if (selectedFiles.length === 0) {
+                alert("Please upload PNG images first!");
+                return;
+            }
+
+            selectedFiles.forEach(file => {
+                const reader = new FileReader();
+
+                reader.onload = e => {
+                    const img = new Image();
+                    img.src = e.target.result;
+
+                    img.onload = () => {
+                        const canvas = document.createElement("canvas");
+                        canvas.width = img.width;
+                        canvas.height = img.height;
+
+                        const ctx = canvas.getContext("2d");
+
+                        ctx.fillStyle = "#ffffff";
+                        ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+                        ctx.drawImage(img, 0, 0);
+
+                        const jpgData = canvas.toDataURL("image/jpeg", 1.0);
+
+                        const link = document.createElement("a");
+                        link.href = jpgData;
+                        link.download = file.name.replace(/\.png$/i, ".jpg");
+                        link.click();
+                    };
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+    </script>
+
+</body>
+
+</html>

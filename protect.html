@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Protect PDF</title>
+
+    <!-- PDF LIB -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+    <link rel="stylesheet" href="protect.css">
+</head>
+
+<body>
+
+    <div class="box">
+
+        <h2>Protect PDF</h2>
+
+        <!-- UPLOAD -->
+        <div id="drop-area">
+            <p>Upload PDF</p>
+            <input type="file" id="pdfInput" accept="application/pdf">
+        </div>
+
+        <!-- PASSWORD -->
+        <input type="password" id="password" placeholder="Enter Password">
+
+        <button onclick="protectPDF()">Protect & Download</button>
+
+        <p id="status"></p>
+
+    </div>
+
+    <script>
+        let selectedFile = null;
+
+        const input = document.getElementById("pdfInput");
+        const status = document.getElementById("status");
+
+        document.getElementById("drop-area").onclick = () => input.click();
+
+        input.addEventListener("change", e => {
+            selectedFile = e.target.files[0];
+        });
+
+        async function protectPDF() {
+
+            if (!selectedFile) {
+                alert("Upload PDF!");
+                return;
+            }
+
+            const password = document.getElementById("password").value;
+
+            if (!password) {
+                alert("Enter password!");
+                return;
+            }
+
+            status.innerText = "Encrypting... ⏳";
+
+            const existingBytes = await selectedFile.arrayBuffer();
+
+            // Load PDF
+            const pdfDoc = await PDFLib.PDFDocument.load(existingBytes);
+
+            // 🔐 Encrypt PDF
+            const pdfBytes = await pdfDoc.save({
+                useObjectStreams: false,
+                encrypt: {
+                    userPassword: password,
+                    ownerPassword: password,
+                    permissions: {
+                        printing: "highResolution",
+                        modifying: false,
+                        copying: false,
+                        annotating: false
+                    }
+                }
+            });
+
+            // DOWNLOAD
+            const blob = new Blob([pdfBytes], { type: "application/pdf" });
+
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "protected.pdf";
+            link.click();
+
+            status.innerText = "Done ✅";
+        }
+    </script>
+
+</body>
+
+</html>

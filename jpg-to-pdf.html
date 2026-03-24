@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JPG to PDF Converter | Ranjit Studio Kapka</title>
+
+    <meta name="description"
+        content="Convert JPG images to PDF online with Ranjit Studio Kapka. Upload multiple images, preview them, remove unwanted files, and download your PDF easily.">
+    <meta name="keywords"
+        content="JPG to PDF, image to PDF, photo to PDF, online PDF converter, Ranjit Studio Kapka, JPG converter">
+    <meta name="author" content="Ranjit Studio Kapka">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.ranjitstudiokapka.in/jpg-to-pdf.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="JPG to PDF Converter | Ranjit Studio Kapka">
+    <meta property="og:description"
+        content="Convert JPG images to PDF online quickly and easily with Ranjit Studio Kapka.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.ranjitstudiokapka.in/jpg-to-pdf.html">
+    <meta property="og:image" content="https://www.ranjitstudiokapka.in/logo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="JPG to PDF Converter | Ranjit Studio Kapka">
+    <meta name="twitter:description"
+        content="Convert JPG images to PDF online quickly and easily with Ranjit Studio Kapka.">
+    <meta name="twitter:image" content="https://www.ranjitstudiokapka.in/logo.png">
+
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="jpg-to-pdf.css">
+
+    <!-- jsPDF CDN -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1MPZCSR95"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-B1MPZCSR95');
+    </script>
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="index.html" class="brand-link" aria-label="Ranjit Studio Kapka Home">
+            <div class="logo">
+                <img src="logo.png" alt="Ranjit Studio logo" class="logo-img">
+                <span>Ranjit Studio Kapka</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="csc_service.html">CSC Services</a></li>
+                <li><a href="videography.html">Studio &amp; Videography</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO / TOOL SECTION -->
+    <main>
+        <section class="tool-section">
+            <div class="box">
+                <h1>JPG to PDF Converter</h1>
+                <p class="subtitle">
+                    Upload JPG or image files, preview them, remove unwanted images, and convert them into a PDF in one click.
+                </p>
+
+                <div id="drop-area">
+                    <p>Click or Drag &amp; Drop Images Here</p>
+                    <input type="file" id="imageInput" multiple accept="image/*">
+                </div>
+
+                <button onclick="convertToPDF()">Convert to PDF</button>
+
+                <div id="preview"></div>
+            </div>
+        </section>
+
+        <!-- SEO CONTENT -->
+        <section class="seo-content">
+            <h2>Free Online JPG to PDF Tool</h2>
+            <p>
+                This JPG to PDF converter by Ranjit Studio Kapka helps you easily turn multiple image files into one PDF document.
+                It is simple to use, mobile-friendly, and useful for students, office work, document sharing, and photo conversion.
+            </p>
+
+            <h2>How to Use</h2>
+            <p>
+                Select your images, preview them on the page, remove any unwanted image, and click the convert button.
+                Your PDF file will be generated and downloaded automatically.
+            </p>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Ranjit Studio Kapka. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let selectedFiles = [];
+
+        const input = document.getElementById("imageInput");
+        const dropArea = document.getElementById("drop-area");
+        const preview = document.getElementById("preview");
+        const menuToggle = document.getElementById("mobile-menu");
+        const navList = document.getElementById("nav-list");
+
+        menuToggle.addEventListener("click", () => {
+            menuToggle.classList.toggle("open");
+            navList.classList.toggle("active");
+
+            const isExpanded = menuToggle.classList.contains("open");
+            menuToggle.setAttribute("aria-expanded", isExpanded);
+        });
+
+        dropArea.addEventListener("click", () => input.click());
+
+        input.addEventListener("change", (e) => {
+            handleFiles(e.target.files);
+        });
+
+        dropArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropArea.classList.add("dragover");
+        });
+
+        dropArea.addEventListener("dragleave", () => {
+            dropArea.classList.remove("dragover");
+        });
+
+        dropArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            dropArea.classList.remove("dragover");
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function handleFiles(files) {
+            for (let file of files) {
+                if (file.type.startsWith("image/")) {
+                    selectedFiles.push(file);
+                }
+            }
+            showPreview();
+        }
+
+        function showPreview() {
+            preview.innerHTML = "";
+
+            selectedFiles.forEach((file, index) => {
+                const reader = new FileReader();
+
+                reader.onload = function (e) {
+                    const div = document.createElement("div");
+                    div.classList.add("preview-item");
+
+                    const img = document.createElement("img");
+                    img.src = e.target.result;
+                    img.alt = `Selected image ${index + 1}`;
+
+                    const btn = document.createElement("span");
+                    btn.innerText = "×";
+                    btn.classList.add("remove-btn");
+
+                    btn.onclick = () => {
+                        selectedFiles.splice(index, 1);
+                        showPreview();
+                    };
+
+                    div.appendChild(img);
+                    div.appendChild(btn);
+                    preview.appendChild(div);
+                };
+
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function convertToPDF() {
+            const { jsPDF } = window.jspdf;
+            const pdf = new jsPDF("p", "mm", "a4");
+
+            if (selectedFiles.length === 0) {
+                alert("Please select images first!");
+                return;
+            }
+
+            for (let i = 0; i < selectedFiles.length; i++) {
+                const imgData = await fileToDataURL(selectedFiles[i]);
+                const imgProps = await getImageDimensions(imgData);
+
+                if (i > 0) pdf.addPage();
+
+                const pageWidth = pdf.internal.pageSize.getWidth();
+                const pageHeight = pdf.internal.pageSize.getHeight();
+
+                const margin = 10;
+                const maxWidth = pageWidth - margin * 2;
+                const maxHeight = pageHeight - margin * 2;
+
+                let imgWidth = imgProps.width;
+                let imgHeight = imgProps.height;
+
+                const widthRatio = maxWidth / imgWidth;
+                const heightRatio = maxHeight / imgHeight;
+                const ratio = Math.min(widthRatio, heightRatio);
+
+                imgWidth = imgWidth * ratio;
+                imgHeight = imgHeight * ratio;
+
+                const x = (pageWidth - imgWidth) / 2;
+                const y = (pageHeight - imgHeight) / 2;
+
+                pdf.addImage(imgData, "JPEG", x, y, imgWidth, imgHeight);
+            }
+
+            pdf.save("converted.pdf");
+        }
+
+        function fileToDataURL(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.onload = e => resolve(e.target.result);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function getImageDimensions(imgData) {
+            return new Promise((resolve) => {
+                const img = new Image();
+                img.onload = function () {
+                    resolve({
+                        width: img.width,
+                        height: img.height
+                    });
+                };
+                img.src = imgData;
+            });
+        }
+    </script>
+
+</body>
+
+</html>

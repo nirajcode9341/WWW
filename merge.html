@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge PDF Files Online | Ranjit Studio Kapka</title>
+
+    <meta name="description"
+        content="Merge PDF files online easily with Ranjit Studio Kapka. Upload multiple PDF files, reorder them by drag and drop, remove unwanted files, and download one merged PDF.">
+    <meta name="keywords"
+        content="Merge PDF, PDF merger, combine PDF files, online PDF merge, PDF tool, Ranjit Studio Kapka">
+    <meta name="author" content="Ranjit Studio Kapka">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://www.ranjitstudiokapka.in/merge-pdf.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Merge PDF Files Online | Ranjit Studio Kapka">
+    <meta property="og:description"
+        content="Combine multiple PDF files into one document online with drag-and-drop reordering and easy download.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://www.ranjitstudiokapka.in/merge-pdf.html">
+    <meta property="og:image" content="https://www.ranjitstudiokapka.in/logo.png">
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Merge PDF Files Online | Ranjit Studio Kapka">
+    <meta name="twitter:description"
+        content="Upload, reorder, and merge PDF files online quickly with Ranjit Studio Kapka.">
+    <meta name="twitter:image" content="https://www.ranjitstudiokapka.in/logo.png">
+
+    <link rel="icon" href="logo.png" type="image/png">
+    <link rel="stylesheet" href="merge.css">
+
+    <!-- PDF-LIB -->
+    <script src="https://unpkg.com/pdf-lib/dist/pdf-lib.min.js"></script>
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-B1MPZCSR95"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag() { dataLayer.push(arguments); }
+        gtag('js', new Date());
+        gtag('config', 'G-B1MPZCSR95');
+    </script>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <header class="navbar">
+        <a href="index.html" class="brand-link" aria-label="Ranjit Studio Kapka Home">
+            <div class="logo">
+                <img src="logo.png" alt="Ranjit Studio logo" class="logo-img">
+                <span>Ranjit Studio Kapka</span>
+            </div>
+        </a>
+
+        <div class="menu-toggle" id="mobile-menu" aria-label="Toggle navigation" aria-expanded="false">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+        </div>
+
+        <nav>
+            <ul class="nav-list" id="nav-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="csc_service.html">CSC Services</a></li>
+                <li><a href="videography.html">Studio &amp; Videography</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <!-- TOOL SECTION -->
+        <section class="tool-section">
+            <div class="box">
+                <h1>Merge PDF Files</h1>
+                <p class="subtitle">
+                    Upload multiple PDF files, drag to reorder them, remove unwanted files, and merge them into one PDF.
+                </p>
+
+                <div id="drop-area">
+                    <p>Drag &amp; Drop PDF Files Here or Click to Upload</p>
+                    <input type="file" id="pdfInput" multiple accept="application/pdf">
+                </div>
+
+                <button onclick="mergePDFs()">Merge PDFs</button>
+
+                <p class="helper-text">Drag files below to change their order before merging.</p>
+
+                <div id="file-list"></div>
+            </div>
+        </section>
+
+        <!-- SEO CONTENT -->
+        <section class="seo-content">
+            <h2>Free Online PDF Merger Tool</h2>
+            <p>
+                This Merge PDF tool by Ranjit Studio Kapka helps you combine multiple PDF files into one document easily.
+                You can upload files, reorder them by drag and drop, remove any file you do not need, and download a single merged PDF.
+            </p>
+
+            <h2>How to Merge PDF Files</h2>
+            <p>
+                Select or drag your PDF files into the upload area, arrange them in your preferred order, and click the merge button.
+                The tool will create one combined PDF file ready for download.
+            </p>
+
+            <h2>Why Use This PDF Merger</h2>
+            <p>
+                This tool is simple, fast, and mobile-friendly. It is useful for combining notes, assignments, scanned documents,
+                office files, and multiple PDF pages into one file for easy sharing and storage.
+            </p>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>© 2026 Ranjit Studio Kapka. All rights reserved.</p>
+    </footer>
+
+    <script>
+        let selectedFiles = [];
+        let dragIndex = null;
+
+        const input = document.getElementById("pdfInput");
+        const dropArea = document.getElementById("drop-area");
+        const fileList = document.getElementById("file-list");
+        const menuToggle = document.getElementById("mobile-menu");
+        const navList = document.getElementById("nav-list");
+
+        menuToggle.addEventListener("click", () => {
+            menuToggle.classList.toggle("open");
+            navList.classList.toggle("active");
+
+            const isExpanded = menuToggle.classList.contains("open");
+            menuToggle.setAttribute("aria-expanded", isExpanded);
+        });
+
+        dropArea.addEventListener("click", () => input.click());
+
+        input.addEventListener("change", (e) => {
+            handleFiles(e.target.files);
+        });
+
+        dropArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dropArea.classList.add("dragover");
+        });
+
+        dropArea.addEventListener("dragleave", () => {
+            dropArea.classList.remove("dragover");
+        });
+
+        dropArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            dropArea.classList.remove("dragover");
+            handleFiles(e.dataTransfer.files);
+        });
+
+        function handleFiles(files) {
+            for (let file of files) {
+                if (file.type === "application/pdf") {
+                    selectedFiles.push(file);
+                }
+            }
+            renderList();
+        }
+
+        function renderList() {
+            fileList.innerHTML = "";
+
+            if (selectedFiles.length === 0) {
+                fileList.innerHTML = `<div class="empty-state">No PDF files selected yet.</div>`;
+                return;
+            }
+
+            selectedFiles.forEach((file, index) => {
+                const div = document.createElement("div");
+                div.className = "file-item";
+                div.draggable = true;
+
+                div.innerHTML = `
+                    <div class="file-left">
+                        <span class="file-icon">📄</span>
+                        <span class="file-name">${file.name}</span>
+                    </div>
+                    <button class="remove-file-btn" type="button" onclick="removeFile(${index})" aria-label="Remove file">×</button>
+                `;
+
+                div.addEventListener("dragstart", () => {
+                    dragIndex = index;
+                    div.classList.add("dragging");
+                });
+
+                div.addEventListener("dragover", (e) => {
+                    e.preventDefault();
+                });
+
+                div.addEventListener("drop", () => {
+                    swapFiles(dragIndex, index);
+                });
+
+                div.addEventListener("dragend", () => {
+                    div.classList.remove("dragging");
+                });
+
+                fileList.appendChild(div);
+            });
+        }
+
+        function swapFiles(from, to) {
+            if (from === null || to === null || from === to) return;
+
+            const temp = selectedFiles[from];
+            selectedFiles[from] = selectedFiles[to];
+            selectedFiles[to] = temp;
+            renderList();
+        }
+
+        function removeFile(index) {
+            selectedFiles.splice(index, 1);
+            renderList();
+        }
+
+        async function mergePDFs() {
+            if (selectedFiles.length < 2) {
+                alert("Please upload at least 2 PDF files!");
+                return;
+            }
+
+            const mergedPdf = await PDFLib.PDFDocument.create();
+
+            for (let file of selectedFiles) {
+                const bytes = await file.arrayBuffer();
+                const pdf = await PDFLib.PDFDocument.load(bytes);
+
+                const pages = await mergedPdf.copyPages(pdf, pdf.getPageIndices());
+                pages.forEach((page) => mergedPdf.addPage(page));
+            }
+
+            const mergedBytes = await mergedPdf.save();
+            const blob = new Blob([mergedBytes], { type: "application/pdf" });
+
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "merged.pdf";
+            link.click();
+        }
+
+        renderList();
+    </script>
+</body>
+
+</html>
