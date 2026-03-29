@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gallery</title>
+  <!-- <link rel="stylesheet" href="style.css" /> -->
+</head>
+<body>
+
+  <h2>Gallery</h2>
+  <div id="gallery"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    const supabaseClient = window.supabase.createClient(
+      "https://kyraxmsaxfbbmfrddhdo.supabase.co",
+      "sb_publishable_BQc5xbpGika-XXMBzq_Bzg_h4jFjd7d"
+    );
+
+    async function loadGallery() {
+      const gallery = document.getElementById("gallery");
+      gallery.innerHTML = "Loading images...";
+
+      const { data, error } = await supabaseClient
+        .from("gallery_images")
+        .select("*")
+        .order("created_at", { ascending: false });
+
+      if (error) {
+        console.log(error);
+        gallery.innerHTML = "Error loading images";
+        return;
+      }
+
+      if (!data || data.length === 0) {
+        gallery.innerHTML = "No images found";
+        return;
+      }
+
+      gallery.innerHTML = "";
+
+      data.forEach(item => {
+        const box = document.createElement("div");
+        box.style.marginBottom = "20px";
+
+        box.innerHTML = `
+          <img src="${item.image_url}" alt="${item.title}" style="width:200px; height:auto; display:block; margin-bottom:8px;">
+          <h3>${item.title || ""}</h3>
+          <p>${item.uploaded_by || ""}</p>
+        `;
+
+        gallery.appendChild(box);
+      });
+    }
+
+    loadGallery();
+  </script>
+
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Ranjit Studio</title>
+
+    <link rel="stylesheet" href="login.css">
+
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <!-- Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+    <a href="index.html" class="brand-link">
+        <div class="logo">
+            <img src="logo.png" class="logo-img">
+            <span>Ranjit Studio Kapka</span>
+        </div>
+    </a>
+
+    <nav>
+        <ul class="nav-list">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="csc_service.html">CSC Services</a></li>
+            <li><a href="videography.html">Studio & Videography</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+    </nav>
+</header>
+
+<!-- LOGIN BOX -->
+<div class="login-container">
+    <div class="login-box">
+        <h2>Admin Login</h2>
+        <p>Login to upload images</p>
+
+        <input type="email" id="email" placeholder="Enter Email">
+        <input type="password" id="password" placeholder="Enter Password">
+
+        <button id="loginBtn">Login</button>
+
+        <p id="msg"></p>
+    </div>
+</div>
+
+<script>
+const supabaseClient = window.supabase.createClient(
+  "https://kyraxmsaxfbbmfrddhdo.supabase.co",
+  "sb_publishable_BQc5xbpGika-XXMBzq_Bzg_h4jFjd7d"
+);
+
+document.getElementById("loginBtn").addEventListener("click", async function () {
+
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const msg = document.getElementById("msg");
+
+    msg.innerText = "Logging in...";
+
+    const { error } = await supabaseClient.auth.signInWithPassword({
+        email: email,
+        password: password
+    });
+
+    if (error) {
+        msg.innerText = error.message;
+        msg.style.color = "red";
+        return;
+    }
+
+    msg.innerText = "Login success!";
+    msg.style.color = "green";
+
+    window.location.href = "upload.html";
+});
+</script>
+
+</body>
+</html>
