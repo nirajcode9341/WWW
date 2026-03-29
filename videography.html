@@ -203,7 +203,7 @@
         async function loadWeddingGallery() {
             const gallery = document.getElementById("weddingGallery");
 
-            gallery.innerHTML = "Loading...";
+            // gallery.innerHTML = "Loading...";
 
             const { data, error } = await supabaseClient
                 .from("gallery_images")
