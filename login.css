@@ -8,7 +8,7 @@
 /* BODY */
 body {
     font-family: 'Poppins', sans-serif;
-    background: linear-gradient(135deg, #0f172a, #1e293b);
+    background: linear-gradient(135deg, #61f7b8, #3f864c);
     min-height: 100vh;
 }
 
@@ -36,9 +36,10 @@ body {
 }
 
 .logo-img {
-    width: 32px;
-    height: 32px;
+    width: 90px;
+    height: auto;
     object-fit: contain;
+    border-radius: 2px;
 }
 
 .nav-list {
